@@ -27,6 +27,7 @@ The primary goal of this tool is to generate realistic, relational dummy data de
 *   **Supply Chain Analytics**: Build and test analytic models tracking vendor performance (OTIF - On Time In Full), lead times, order fulfillment rates, average monthly usage (AMU), price fluctuations, and safety stock optimizations.
 *   **Supply Chain Data Engineering**: Design robust data pipelines, orchestrate ETL/ELT flows, practice relational database modeling, and create streaming or batch data ingestion pipelines using realistic transactional hierarchies.
 *   **Supply Chain Visualization**: Populate business intelligence (BI) tools (e.g., Tableau, PowerBI) and web visualization dashboards with lifelike tracking numbers, Gantt charts for delivery timelines, and multi-stage process flows (Order ➔ Confirmation ➔ Inbound Delivery ➔ Invoice).
+*   **GCS Integration**: Automatically upload generated datasets to Google Cloud Storage for downstream consumption in cloud-based data warehouses or analysis pipelines.
 
 By starting with high-level constraints (e.g., how many lines are shared or how many invoices are expected per vendor), the generators cascade this configuration down to simulate complex timing relationships, randomized batch sizes, standard supply chain calculations, and transactional tracking numbers.
 
@@ -108,7 +109,7 @@ supply-chain-dummy-data-generator/
 ## How to Run
 
 ### 1. Run the Transactional Pipeline
-To generate the transactional flow (`po_schedule` ➔ `po_confirmation` ➔ `inbound_delivery` ➔ `invoice`) in sequence, execute:
+To generate the transactional flow (`po_schedule` ➔ `po_confirmation` ➔ `inbound_delivery` ➔ `invoice`) in sequence and upload the results to the configured GCS bucket, execute:
 
 ```bash
 python3 main.py
