@@ -4,10 +4,11 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 
 def run():
+    # Read input: PO schedule data requirements
     input_file = "requirements/po_schedule_data.csv"
     output_file = "output/po_schedule.csv"
 
-    #Read data from CSV requirements
+    # Load vendor/PO requirements data
     vendors = []
     with open(input_file, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
@@ -20,11 +21,12 @@ def run():
                 "lines": int(row["PO LINES SHARED"])
             })
 
-    #Aggregate at erp level to find total lines per erp
+    # Group requirements by ERP
     erp_groups = defaultdict(list)
     for v in vendors:
         erp_groups[v["erp"]].append(v)
 
+    # Generate output file with PO schedules
     with open(output_file, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([
@@ -39,17 +41,21 @@ def run():
                 
                 total_lines = v["lines"]
                 
+                # Generate POs for each vendor/plant requirement
                 while total_lines > 0:
                     items_in_po = min(total_lines, random.randint(1, 99))
                     
+                    # Generate unique PO number
                     rand_num = str(random.randint(100, 9000))
                     combined = rand_num + str(counter)
                     combined = combined.zfill(9)
                     po_number = "5" + combined
                     
+                    # Generate line items for each PO
                     for item in range(1, items_in_po + 1):
                         contractual_date = po_creation + timedelta(days=random.randint(7, 365))
                         
+                        # Generate delivery date based on contractual date with random offset
                         if random.choice([True, False]):
                             delivery_date = contractual_date
                         else:
